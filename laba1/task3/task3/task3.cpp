@@ -86,7 +86,8 @@ int factorial(int n)
 
 vector<vector<int>> alternative_matrix(const vector<int>& seed, const vector<vector<int>>& m)
 {
-	vector<vector<int>> new_matrix = m;
+	vector<vector<int>> new_matrix;
+	new_matrix.resize(m.size(), vector<int>(m.size()));
 	for (int i = 0; i < seed.size(); ++i)
 	{
 		for (int j = 0; j < m.size(); ++j)
@@ -102,11 +103,26 @@ vector<vector<int>> alternative_matrix(const vector<int>& seed, const vector<vec
 	return new_matrix;
 }
 
+vector<int> sorting(vector<int> v) {
+	for (int i = 0; i < v.size(); ++i)
+	{
+		int x = v[i];
+		int j = i;
+		while (j > 0 && v[j - 1] > x)
+		{
+			v[j] = v[j - 1];
+			--j;
+		}
+		v[j] = x;
+	}
+	return v;
+}
+
 bool isomorphism_check(const vector<vector<int>>& m1, const vector<vector<int>>& m2)
 {
 	if (v_counter(m1) != v_counter(m2)) return false;
 	if (e_counter(m1) != e_counter(m2)) return false;
-	if (power_seq(m1) != power_seq(m2)) return false;
+	if (sorting(power_seq(m1)) != sorting(power_seq(m2))) return false;
 
 	vector<int> seed(v_counter(m1));
 	for (int i = 0; i < seed.size(); ++i)
