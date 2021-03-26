@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -56,12 +58,61 @@ public class Main {
         return t_matrix.transposeMatrix().elementByElementMul(t_matrix);
     }
 
-    public static void printResult(Matrix s_matrix) {
-        int p = 1;
+    public static boolean isContains(boolean[] arr, boolean bool) {
+        for (boolean x : arr) {
+            if (x == bool) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static ArrayList<ArrayList<Integer>> getComponents(Matrix s_matrix) {
+        boolean[] isCrossOut = new boolean[s_matrix.getRows()];
+        ArrayList<ArrayList<Integer>> components = new ArrayList<>();
+        int p = 0;
+        for (int i = 0; isContains(isCrossOut, false); ++i) {
+            if (!isCrossOut[i]) {
+                components.add(new ArrayList<>());
+                for (int j = 0; j < s_matrix.getRows(); ++j) {
+                    if (!isCrossOut[j] && s_matrix.get(i, j) == 1) {
+                        components.get(p).add(j);
+                        isCrossOut[j] = true;
+                    }
+                }
+                p++;
+            }
+        }
+        return components;
+    }
+
+    public static void printComponents(ArrayList<ArrayList<Integer>> components,
+                                       Matrix matrix) {
+        for (ArrayList<Integer> arr : components) {
+            System.out.print("Vertexes: ");
+            for (Integer element : arr) {
+                System.out.print(element + " ");
+            }
+            System.out.println("\nMatrix:");
+            printMatrixComponent(arr, matrix);
+            System.out.println();
+        }
+    }
+
+    public static void printMatrixComponent(ArrayList<Integer> arr,
+                                            Matrix matrix) {
+        for (Integer i: arr) {
+            for (Integer j: arr) {
+                System.out.print(matrix.get(i, j) + " ");
+            }
+            System.out.println();
+        }
     }
 
     public static void main(String[] args) {
         Matrix matrix = inputMatrix();
-        System.out.println(S_Matrix(T_Matrix(matrix)).toString());
+        ArrayList<ArrayList<Integer>> components
+                = getComponents(S_Matrix(T_Matrix(matrix)));
+        printComponents(components, matrix);
     }
 }
