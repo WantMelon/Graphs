@@ -101,10 +101,10 @@ public class Matrix {
         return new Matrix(result);
     }
 
-    public Matrix sum(Matrix anotherMatrix)
+    public Matrix add(Matrix anotherMatrix)
             throws UnsupportedOperationException {
         if (anotherMatrix.getRows() != rows
-            || anotherMatrix.getColumns() != columns) {
+                || anotherMatrix.getColumns() != columns) {
             throw new UnsupportedOperationException();
         }
 
@@ -112,6 +112,30 @@ public class Matrix {
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < columns; ++j) {
                 result[i][j] = matrix[i][j] + anotherMatrix.get(i, j);
+            }
+        }
+        return new Matrix(result);
+    }
+
+    public static Matrix eye(int size) {
+        int[][] newMatrix = new int[size][size];
+        for (int i = 0; i < size; ++i) {
+            newMatrix[i][i] = 1;
+        }
+        return new Matrix(newMatrix);
+    }
+
+    public Matrix elementByElementMul(Matrix matrix)
+            throws UnsupportedOperationException {
+        if (matrix.getRows() != rows
+                || matrix.getColumns() != columns) {
+            throw new UnsupportedOperationException();
+        }
+
+        int[][] result = new int[rows][columns];
+        for (int i = 0; i < matrix.getRows(); ++i) {
+            for (int j = 0; j < matrix.getColumns(); ++j) {
+                result[i][j] = this.matrix[i][j] * matrix.get(i, j);
             }
         }
         return new Matrix(result);
