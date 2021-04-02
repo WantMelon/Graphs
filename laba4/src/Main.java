@@ -71,7 +71,7 @@ public class Main {
         ArrayList<Integer> path = new ArrayList<>();
         Stack<Integer> stack = new Stack<>();
         stack.push(0);
-        while(!stack.empty()) {
+        while (!stack.empty()) {
             Integer v = stack.peek();
             if (getDegree(matrix, v) == 0) {
                 path.add(v);
@@ -95,11 +95,23 @@ public class Main {
      */
     public static ArrayList<Integer> deleteNewEdge(ArrayList<Integer> path,
                                                    ArrayList<Integer> newEdge) {
-        ArrayList<Integer> result = new ArrayList<>();
-        int pivot;
-        for (int i = 0; i < path.size(); ++i) {
-
+        ArrayList<Integer> result = new ArrayList<>(path.size());
+        int pivot = path.size();
+        for (int i = 1; i < path.size(); ++i) {
+            if ((path.get(i - 1).equals(newEdge.get(0)) && path.get(i).equals(newEdge.get(1)))
+                    || (path.get(i - 1).equals(newEdge.get(1)) && path.get(i).equals(newEdge.get(0)))) {
+                pivot = i;
+                break;
+            }
         }
+
+        for (int i = pivot; i < path.size(); ++i) {
+            result.add(path.get(i));
+        }
+        for (int i = 1; i < pivot; ++i) {
+            result.add(path.get(i));
+        }
+
         return result;
     }
 
@@ -113,12 +125,13 @@ public class Main {
         }
 
         ArrayList<Integer> path = findEulerianCycle(matrix);
-        for (Integer el : path) {
-            System.out.print(el + 1 + " ");
-        }
 
         if (newEdge.size() == 2) {
             path = deleteNewEdge(path, newEdge);
+        }
+
+        for (Integer el : path) {
+            System.out.print(el + 1 + " ");
         }
     }
 }
