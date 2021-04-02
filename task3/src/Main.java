@@ -1,13 +1,12 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     public static Matrix inputMatrix() {
         Matrix matrix = null;
-        File file = new File("task3/input.txt");
+        File file = new File("input.txt");
         try {
             Scanner sc = new Scanner(file);
             int N = sc.nextInt();

@@ -24,10 +24,13 @@ public class Main {
         return matrix;
     }
 
+    /**
+     * Возвращаем степень заданной вершины.
+     */
     public static int getDegree(int[][] matrix, int v) {
         int degree = 0;
         for (int[] ints : matrix) {
-            if (ints[v] == 1) degree++;
+            degree += ints[v];
         }
         return degree;
     }
@@ -40,14 +43,19 @@ public class Main {
         return degreeSequence;
     }
 
+    /**
+     * Проверка существвует ли эйлеров цикл(цепь).
+     * Если существует цепь, но не существует цикл возвращаем
+     * вершины которые следует обьеденить.
+     */
     public static ArrayList<Integer> checkGraph(int[][] matrix) {
         int[] degreeSequence = getDegreeSequence(matrix);
         int oddCounter = 0;
         ArrayList<Integer> newEdge = new ArrayList<>();
-        for (int el : degreeSequence) {
-            if (el % 2 == 1) {
+        for (int i = 0; i < degreeSequence.length; ++i) {
+            if (degreeSequence[i] % 2 == 1) {
                 oddCounter++;
-                newEdge.add(el);
+                newEdge.add(i);
             }
         }
         if (oddCounter != 0 && oddCounter != 2) {
@@ -56,6 +64,9 @@ public class Main {
         return newEdge;
     }
 
+    /**
+     * Алгоритм нахождения эйлерова цикла
+     */
     public static ArrayList<Integer> findEulerianCycle(int[][] matrix) {
         ArrayList<Integer> path = new ArrayList<>();
         Stack<Integer> stack = new Stack<>();
@@ -67,8 +78,9 @@ public class Main {
                 stack.pop();
             } else {
                 for (int i = 0; i < matrix.length; ++i) {
-                    if (matrix[i][v] == 1) {
-                        matrix[i][v] = matrix[v][i] = 0;
+                    if (matrix[i][v] >= 1) {
+                        matrix[i][v]--;
+                        matrix[v][i]--;
                         stack.push(i);
                         break;
                     }
@@ -78,16 +90,35 @@ public class Main {
         return path;
     }
 
+    /**
+     * Удаляем мнимое ребро.
+     */
+    public static ArrayList<Integer> deleteNewEdge(ArrayList<Integer> path,
+                                                   ArrayList<Integer> newEdge) {
+        ArrayList<Integer> result = new ArrayList<>();
+        int pivot;
+        for (int i = 0; i < path.size(); ++i) {
+
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
         int[][] matrix = inputMatrix();
         ArrayList<Integer> newEdge = checkGraph(matrix);
 
         if (newEdge.size() == 2) {
-            matrix[newEdge.get(0)][newEdge.get(1)] = 1;
-            matrix[newEdge.get(1)][newEdge.get(0)] = 1;
+            matrix[newEdge.get(0)][newEdge.get(1)]++;
+            matrix[newEdge.get(1)][newEdge.get(0)]++;
         }
 
         ArrayList<Integer> path = findEulerianCycle(matrix);
-        System.out.println(path.toString());
+        for (Integer el : path) {
+            System.out.print(el + 1 + " ");
+        }
+
+        if (newEdge.size() == 2) {
+            path = deleteNewEdge(path, newEdge);
+        }
     }
 }
