@@ -6,9 +6,9 @@ import java.util.ArrayDeque;
 import java.util.Scanner;
 
 public class Main {
-    public static int[][] inputMatrix() {
+    public static int[][] inputMatrix(String filename) {
         int[][] matrix = null;
-        File file = new File("src/task1/input.txt");
+        File file = new File(filename);
         try {
             Scanner sc = new Scanner(file);
             int N = sc.nextInt();
@@ -78,7 +78,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        int[][] matrix = inputMatrix();
+        int[][] matrix = inputMatrix("src/task1/input.txt");
         boolean isConnectivity = connectivityCheck(matrix, 0);
         boolean isTree = isTree(isConnectivity, matrix);
 
