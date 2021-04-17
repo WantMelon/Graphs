@@ -1,6 +1,5 @@
 package task2.kruskal;
 
-import java.net.InetAddress;
 import java.util.Arrays;
 
 public class Main {
@@ -10,9 +9,11 @@ public class Main {
      * в одну компоненту связности.
      */
     public static void changeConnectivity(int[] connectivity, int x, int y) {
+        int from = connectivity[x];
+        int to = connectivity[y];
         for (int i = 0; i < connectivity.length; ++i) {
-            if (connectivity[i] == connectivity[x]) {
-                connectivity[i] = connectivity[y];
+            if (connectivity[i] == from) {
+                connectivity[i] = to;
             }
         }
     }
@@ -44,17 +45,16 @@ public class Main {
                     }
                 }
             }
-            matrix[minEdge[0]][minEdge[1]] = matrix[minEdge[1]][minEdge[0]] = 0;
             changeConnectivity(connectivity, minEdge[0], minEdge[1]);
-            connectivity[minEdge[1]] = connectivity[minEdge[0]];
 
-            tree[minEdge[0]][minEdge[1]] = tree[minEdge[1]][minEdge[0]] = 1;
+            tree[minEdge[0]][minEdge[1]] = tree[minEdge[1]][minEdge[0]]
+                    = minEdgeWeight;
         }
         return tree;
     }
 
     public static void main(String[] args) {
-        int[][] matrix = task1.Main.inputMatrix("src/task2/input.txt");
+        int[][] matrix = task1.Main.inputMatrix("src/task2/input(lecture).txt");
         int[][] tree = kruskalAlgorithm(matrix);
 
         for (int[] row : tree) {
