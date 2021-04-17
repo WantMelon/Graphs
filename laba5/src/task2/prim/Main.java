@@ -3,6 +3,11 @@ package task2.prim;
 import java.util.Arrays;
 
 public class Main {
+    /**
+     * Ищем минимальное ребро e(i, j) среди обведенных строк и
+     * не зачеркнутых столбцов. После обводим строки i, j и
+     * зачеркиваем столбцы i, j. Повторяем n-1 раз.
+     */
     public static int[][] primAlgorithm(int[][] matrix) {
         int[][] tree = new int[matrix.length][matrix.length];
         boolean[] availableRows = new boolean[matrix.length];
