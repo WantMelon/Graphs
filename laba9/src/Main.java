@@ -54,14 +54,25 @@ public class Main {
     public static int[] greedyPainting(int[][] matrix) {
         int[] colors = new int[matrix.length];
         boolean[] used = new boolean[matrix.length];
+        int curColor = 0;
 
         for (int i = 0; i < colors.length; i++) {
-            // Независимое множество
-            List<Integer> set = new ArrayList<>();
-            for (int j = 0; j < matrix.length; j++) {
-                if (matrix[i][j] == 0) {
-                    set.add(j);
-                    used[j] = true;
+            if (!used[i]) {
+                curColor++;
+                // Независимое множество
+                List<Integer> set = new ArrayList<>();
+                for (int j = 0; j < matrix.length; j++) {
+                    if (matrix[i][j] == 0) {
+                        if (set.isEmpty() || check(matrix, set, j)) {
+                            set.add(j);
+                            used[j] = true;
+                        }
+                    }
+                }
+
+                // Каждый элемент независимого множества раскаршиваем в цвет
+                for (Integer el : set) {
+                    colors[el] = curColor;
                 }
             }
         }
@@ -69,9 +80,21 @@ public class Main {
         return colors;
     }
 
+
+    // Гарантирует, что все вершины в множестве будут не смежны между собой
+    public static boolean check(int[][] matrix, List<Integer> set, int el) {
+        for (Integer i : set) {
+            if (matrix[i][el] > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         int[][] matrix = inputMatrix("src/input.txt");
 
         System.out.println("Sequential painting: " + Arrays.toString(sequentialPainting(matrix)));
+        System.out.println("Greedy painting: " + Arrays.toString(greedyPainting(matrix)));
     }
 }

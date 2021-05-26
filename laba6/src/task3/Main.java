@@ -1,7 +1,6 @@
 package task3;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,14 +16,14 @@ public class Main {
 
     /**
      * Используем поиск в глубину для составления бинарного кода.
+     *
      * @param matrix Исходная матрицы
-     * @param used Массив вершин, в которых мы уже побывали
-     * @param cur Текущая вершина
-     * @return Бинарный код
+     * @param used   Массив вершин, в которых мы уже побывали
+     * @param cur    Текущая вершина
      */
-    public static List<Integer> getBinaryCode(List<Integer> binaryCode,
-                                              int[][] matrix, boolean[] used,
-                                              int cur) {
+    public static void getBinaryCode(List<Integer> binaryCode,
+                                     int[][] matrix, boolean[] used,
+                                     int cur) {
         used[cur] = true;
         int next = getNextVertex(matrix, used, cur);
 
@@ -35,7 +34,6 @@ public class Main {
             next = getNextVertex(matrix, used, cur);
         }
 
-        return binaryCode;
     }
 
     public static void main(String[] args) {
