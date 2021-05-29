@@ -4,6 +4,10 @@ public class Checking {
     private Checking() {}
 
     public static boolean isBipartition(int[][] matrix) {
+        return isBipartition(matrix, new ArrayList<>(), new ArrayList<>());
+    }
+
+    public static boolean isBipartition(int[][] matrix, List<Integer> V1, List<Integer> V2) {
         int[] flags = bfs(matrix);
         List<Integer> evenVertexes = new ArrayList<>();
         List<Integer> oddVertexes = new ArrayList<>();
@@ -31,6 +35,9 @@ public class Checking {
                 }
             }
         }
+
+        V1.addAll(evenVertexes);
+        V2.addAll(oddVertexes);
 
         return true;
     }

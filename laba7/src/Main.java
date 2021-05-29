@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -28,5 +29,14 @@ public class Main {
         int[][] matrix = inputMatrix("src/input.txt");
         boolean isBipartition = Checking.isBipartition(matrix);
         System.out.println(isBipartition);
+
+        System.out.println("Паросочетание");
+        List<List<Integer>> bipartition = FindMaxBipartition.findMaxBipartition(matrix);
+        for (int i = 0; i < bipartition.get(0).size(); i++) {
+            for (int j = 0; j < bipartition.size(); j++) {
+                System.out.print(bipartition.get(j).get(i) + " ");
+            }
+            System.out.println();
+        }
     }
 }

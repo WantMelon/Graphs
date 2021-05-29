@@ -62,7 +62,7 @@ public class Main {
                 // Независимое множество
                 List<Integer> set = new ArrayList<>();
                 for (int j = 0; j < matrix.length; j++) {
-                    if (matrix[i][j] == 0) {
+                    if (matrix[i][j] == 0 && !used[j]) {
                         if (set.isEmpty() || check(matrix, set, j)) {
                             set.add(j);
                             used[j] = true;
